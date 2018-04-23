@@ -1,0 +1,33 @@
+@model CS.Controllers.HtmlEditorModel
+<p>
+    Sample document:
+    @Html.DevExpress().HyperLink(
+        settings => {
+            settings.Name = "lnkDocument";
+            settings.Properties.Text = ViewData["SampleDocumentPath"].ToString();
+            settings.NavigateUrl = settings.Properties.Text;
+        }
+    ).GetHtml()
+</p>
+@Html.DevExpress().Button(
+        settings => {
+            settings.Name = "btnImport";
+            settings.RouteValues = new { Controller = "HtmlEditor", Action = "ImportSampleDocument" };
+            settings.Text = "Import the document";
+        }
+    ).GetHtml()
+<br />
+@using (Html.BeginForm("ExportContentTo", "HtmlEditor")) {
+    @Html.Partial("ImportExportPartial", Model)
+    <br />
+    @Html.DevExpress().Button(settings => {
+        settings.Name = "btnExport";
+        settings.UseSubmitBehavior = true;
+        settings.Text = "Export content to";
+    }).GetHtml()
+    <br />
+    @Html.DevExpress().ComboBox(settings => {
+        settings.Name = "cmbFormat";
+        settings.Properties.ValueType = typeof(HtmlEditorExportFormat);
+    }).BindList(Enum.GetNames(typeof(HtmlEditorExportFormat))).Bind(HtmlEditorExportFormat.Rtf).GetHtml()
+}
