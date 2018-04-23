@@ -1,0 +1,12 @@
+﻿@model CS.Controllers.HtmlEditorModel
+
+@Html.DevExpress().HtmlEditor(settings => {
+        CS.Controllers.HtmlEditorDemosHelper.SetHtmlEditorExportSettings(settings);
+        if (Model != null) {
+            settings.Html = Model.Html;
+            if (Model.CssFiles != null) {
+                settings.CssFiles.Clear();
+                settings.CssFiles.AddRange(Model.CssFiles);
+            }
+        }
+    }).GetHtml()
